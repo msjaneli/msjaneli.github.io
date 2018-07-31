@@ -1,0 +1,51 @@
+html
+{
+    cursor: url(resources/circlecursor.png), auto;
+}
+body { 
+    height: 200px;
+    position: relative;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+
+}
+h2 
+{
+
+}
+a 
+{
+    text-decoration: underline;
+    color: #ffcccc
+
+}
+canvas 
+{ 
+    border: 1px solid #ccc 
+}
+
+#cont {
+  position: relative;
+  width: 500px;
+  height: 500px;
+}
+
+canvas {
+  border: 1px solid;
+}
+
+#cont canvas, .canvas-container {
+  position: absolute!important;
+  left: 0!important;
+  top: 0!important;
+  width: 100%!important;
+  height: 100%!important;
+}
+
+#cursor {
+  pointer-events: none!important;
+}
