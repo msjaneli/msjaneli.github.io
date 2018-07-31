@@ -4,33 +4,42 @@
   <script type="text/javascript" src="node_modules/paper/dist/paper-full.js"></script>
   <script type="text/paperscript" canvas="myCanvas">
   // The minimum distance the mouse has to drag
-  // before firing the next onMouseDrag event:
-    tool.minDistance = 10;
+// before firing the next onMouseDrag event:
+tool.minDistance = 10;
+tool.maxDistance = 45;
 
-    var path;
+var path = new Path();
+path.strokeColor = '#a4d3fc';
+path.fillColor = '#a4d3fc';
 
-    function onMouseDown(event) {
-    // Create a new path and select it:
-    path = new Path();
-    path.strokeColor = '#00000';
-
-    // Add a segment to the path where
-    // you clicked:
-    path.add(event.point);
-    }
-
-function onMouseDrag(event) {
+function onMouseMove(event) {
 // Every drag event, add a segment
 // to the path at the position of the mouse:
 path.add(event.point);
+var step = event.delta;
+step.angle += 90;
+
+var top = event.middlePoint + step;
+var bottom = event.middlePoint - step;
+
+var line = new Path();
+line.add(top);
+line.add(bottom);
+
+path.add(top);
+path.insert(0, bottom);
+path.smooth();
 }
   </script>
 
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/animate.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+
+
 </head>
 
-<title>jane li: a journey</title>
+<title>jane li: home</title>
 
 
 <body>
@@ -38,7 +47,6 @@ path.add(event.point);
 
   <div id="text" unselectable="on" class="unselectable">
     <div class="animated fadeInDown">
-
         <h1>jane li</h1> <br>
         <div class="descr">
           duke sophomore with a creative eye for code <br> <br>
@@ -49,7 +57,8 @@ path.add(event.point);
         <a href="resume.html">resume</a> <br>
         <a href="portfolio.html">portfolio</a> <br>
         <a href="contact.html">contact</a> <br>
-    </body>
   </div>
+
+    </body>
 </div>
 </html>
