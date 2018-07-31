@@ -2,7 +2,29 @@
 <html>
 <head>
   <script type="text/javascript" src="node_modules/paper/dist/paper-full.js"></script>
-  <script type="text/paperscript" src="js/bgsplash.js" canvas="myCanvas"></script>
+  <script type="text/paperscript" canvas="myCanvas">
+  // The minimum distance the mouse has to drag
+  // before firing the next onMouseDrag event:
+    tool.minDistance = 10;
+
+    var path;
+
+    function onMouseDown(event) {
+    // Create a new path and select it:
+    path = new Path();
+    path.strokeColor = '#00000';
+
+    // Add a segment to the path where
+    // you clicked:
+    path.add(event.point);
+    }
+
+function onMouseDrag(event) {
+// Every drag event, add a segment
+// to the path at the position of the mouse:
+path.add(event.point);
+}
+  </script>
 
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/animate.css">
@@ -10,9 +32,12 @@
 
 <title>jane li: a journey</title>
 
-<div class="animated fadeInDown">
+
 <body>
   <canvas id="myCanvas" resize="true"></canvas>
+
+  <div id="text" unselectable="on">
+    <div class="animated fadeInDown">
 
         <h1>jane li</h1> <br>
         <div class="descr">
@@ -20,10 +45,11 @@
         </div>
             <!--<img src= "" alt="a picture"</body>-->
         <h2>///</h2> <br>
-        <a href="about.html">about</a> <br>
+        <a href="about.html" class="effect-box">about</a> <br>
         <a href="resume.html">resume</a> <br>
         <a href="portfolio.html">portfolio</a> <br>
         <a href="contact.html">contact</a> <br>
     </body>
+  </div>
 </div>
 </html>
