@@ -19,6 +19,10 @@
   position: relative;
 }
 
+.module {
+  scroll-behavior: [ auto | smooth ];
+}
+
 #hello {
   margin-bottom: 20px;
 }
@@ -40,7 +44,6 @@ body {
   height: 100%;
   width: 100%;
   overflow: hidden;
-  position: relative;
   margin: 0;
   position: absolute;
   top: 50%;
@@ -255,4 +258,29 @@ h1:nth-child(3) {
     transform: none;
     opacity: 0.25;
   }
+}
+
+
+.scrolling {
+    width: 100%;
+    height: 100%;
+}
+
+
+section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+#about {
+  background-color: #a4d3fc;
+  margin: 0;
+  line-height: 0;
+
+}
+
+h2 {
+  color: #ffffff;
 }
