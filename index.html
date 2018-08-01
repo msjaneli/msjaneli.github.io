@@ -1,35 +1,26 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <script type="text/javascript" src="node_modules/paper/dist/paper-full.js"></script>
   <script type="text/paperscript" canvas="myCanvas">
-  // The minimum distance the mouse has to drag
-// before firing the next onMouseDrag event:
-tool.minDistance = 10;
-tool.maxDistance = 45;
-
-var path = new Path();
-path.strokeColor = '#a4d3fc';
-path.fillColor = '#a4d3fc';
-
-function onMouseMove(event) {
-// Every drag event, add a segment
-// to the path at the position of the mouse:
-path.add(event.point);
-var step = event.delta;
-step.angle += 90;
-
-var top = event.middlePoint + step;
-var bottom = event.middlePoint - step;
-
-var line = new Path();
-line.add(top);
-line.add(bottom);
-
-path.add(top);
-path.insert(0, bottom);
-path.smooth();
-}
+    // The minimum distance the mouse has to drag // before firing the next onMouseDrag event:
+    tool.minDistance = 10;
+    tool.maxDistance = 45; var path = new Path();
+    path.strokeColor = '#a4d3fc'; path.fillColor = '#a4d3fc';
+    function onMouseMove(event) {
+      path.add(event.point);
+      var step = event.delta;
+      step.angle += 90;
+      var top = event.middlePoint + step;
+      var bottom = event.middlePoint - step;
+      var line = new Path();
+      line.add(top);
+      line.add(bottom);
+      path.add(top);
+      path.insert(0, bottom);
+      path.smooth();
+    }
   </script>
 
   <link rel="stylesheet" href="css/main.css">
@@ -44,25 +35,23 @@ path.smooth();
 
 <body>
   <canvas id="myCanvas" resize="true"></canvas>
-
   <div id="text" unselectable="on" class="unselectable">
     <div class="animated fadeInDown">
       <div class="img">
         <img src="resources/hellomynameis.png" width="180" height="40"></img>
       </div>
-        <h1>jane li</h1>
-        <div class="img">
+      <h1>jane li</h1>
+      <div class="img">
         <img src="resources/andim.png" width="75" height="40"></img>
-        </div>
-          a duke sophomore with a creative eye for code <br> <br> <br>
-            <!--<img src= "" alt="a picture"</body>-->
-        <h2>///</h2> <br>
-        <a href="about.html">about</a> <br>
-        <a href="resume.html">resume</a> <br>
-        <a href="portfolio.html">portfolio</a> <br>
-        <a href="contact.html">contact</a> <br>
+      </div>
+      a duke sophomore with a creative eye for code <br> <br> <br>
+      <h2>///</h2> <br>
+      <a href="about.html">about</a> <br>
+      <a href="resume.html">resume</a> <br>
+      <a href="portfolio.html">portfolio</a> <br>
+      <a href="contact.html">contact</a> <br>
+    </div>
   </div>
+</body>
 
-    </body>
-</div>
 </html>
