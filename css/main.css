@@ -13,6 +13,9 @@
    user-select: none;
 }
 
+.img{
+  position: relative;
+}
 
 html {
     cursor: url(resources/circlecursor.png), auto;
@@ -58,11 +61,6 @@ a:hover{
   color: #ffffff;
   font-size: 200%;
 }
-
-canvas{
-    border: 1px solid #ccc
-}
-
 
 /* Scale canvas with resize attribute to full size */
 canvas[resize] {
