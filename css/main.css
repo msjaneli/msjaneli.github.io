@@ -19,9 +19,9 @@
   position: relative;
 }
 
-.module {
+/* .module {
   scroll-behavior: [ auto | smooth ];
-}
+} */
 
 #hello {
   margin-bottom: 20px;
@@ -36,7 +36,7 @@ canvas[resize] {
 }
 
 html {
-  cursor: url(resources/circlecursor.png), auto;
+  cursor: url(cursor/circlecursor.png), auto;
   font-family: 'Montserrat', sans-serif;
 }
 
@@ -268,19 +268,20 @@ h1:nth-child(3) {
 
 
 section {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  /* display: flex; */
+  position: relative;
+  /* align-items: center;
+  justify-content: center; */
   height: 100%;
 }
 
 #about {
   background-color: #a4d3fc;
   margin: 0;
-  line-height: 0;
-
 }
 
-h2 {
+h3{
   color: #ffffff;
+  font-size: 250%;
+  padding-top: 15vh;
 }
