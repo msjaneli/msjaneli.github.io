@@ -10,26 +10,138 @@
       event.preventDefault();
       $("html, body").animate({ scrollTop: $($(this).attr("href")).offset().top }, 500);
   });
+  $(".menuicon").hover(function(){
+    $(this).toggleClass("is-active");
+  });
 });
+
   </script>
+
   <script type="text/paperscript" canvas="myCanvas">
-    // The minimum distance the mouse has to drag // before firing the next onMouseDrag event:
-    tool.minDistance = 10;
-    tool.maxDistance = 45; var path = new Path();
-    path.strokeColor = '#a4d3fc'; path.fillColor = '#a4d3fc';
-    function onMouseMove(event) {
-      path.add(event.point);
-      var step = event.delta;
-      step.angle += 90;
-      var top = event.middlePoint + step;
-      var bottom = event.middlePoint - step;
-      var line = new Path();
-      line.add(top);
-      line.add(bottom);
-      path.add(top);
-      path.insert(0, bottom);
-      path.smooth();
-    }
+    // // The minimum distance the mouse has to drag // before firing the next onMouseDrag event:
+    // tool.minDistance = 10;
+    // tool.maxDistance = 45; var path = new Path();
+    // path.strokeColor = '#a4d3fc'; path.fillColor = '#a4d3fc';
+    // function onMouseMove(event) {
+    //   path.add(event.point);
+    //   var step = event.delta;
+    //   step.angle += 90;
+    //   var top = event.middlePoint + step;
+    //   var bottom = event.middlePoint - step;
+    //   var line = new Path();
+    //   line.add(top);
+    //   line.add(bottom);
+    //   path.add(top);
+    //   path.insert(0, bottom);
+    //   path.smooth();
+    // }
+    var values = {
+	friction: 0.8,
+	timeStep: 0.01,
+	amount: 15,
+	mass: 2,
+	count: 0
+};
+values.invMass = 1 / values.mass;
+
+var path, springs;
+var size = view.size * [1.2, 1];
+
+var Spring = function(a, b, strength, restLength) {
+	this.a = a;
+	this.b = b;
+	this.restLength = restLength || 80;
+	this.strength = strength ? strength : 0.55;
+	this.mamb = values.invMass * values.invMass;
+};
+
+Spring.prototype.update = function() {
+	var delta = this.b - this.a;
+	var dist = delta.length;
+	var normDistStrength = (dist - this.restLength) /
+			(dist * this.mamb) * this.strength;
+	delta.y *= normDistStrength * values.invMass * 0.2;
+	if (!this.a.fixed)
+		this.a.y += delta.y;
+	if (!this.b.fixed)
+		this.b.y -= delta.y;
+};
+
+
+function createPath(strength) {
+	var path = new Path({
+		fillColor: '#bfecff'
+	});
+	springs = [];
+	for (var i = 0; i <= values.amount; i++) {
+		var segment = path.add(new Point(i / values.amount, 0.5) * size);
+		var point = segment.point;
+		if (i == 0 || i == values.amount)
+			point.y += size.height;
+		point.px = point.x;
+		point.py = point.y;
+		// The first two and last two points are fixed:
+		point.fixed = i < 2 || i > values.amount - 2;
+		if (i > 0) {
+			var spring = new Spring(segment.previous.point, point, strength);
+			springs.push(spring);
+		}
+	}
+	path.position.x -= size.width / 4;
+	return path;
+}
+
+function onResize() {
+	if (path)
+		path.remove();
+	size = view.bounds.size * [2, 1];
+	path = createPath(0.1);
+}
+
+function onMouseMove(event) {
+	var location = path.getNearestLocation(event.point);
+	var segment = location.segment;
+	var point = segment.point;
+
+	if (!point.fixed && location.distance < size.height / 4) {
+		var y = event.point.y;
+		point.y += (y - point.y) / 6;
+		if (segment.previous && !segment.previous.fixed) {
+			var previous = segment.previous.point;
+			previous.y += (y - previous.y) / 24;
+		}
+		if (segment.next && !segment.next.fixed) {
+			var next = segment.next.point;
+			next.y += (y - next.y) / 24;
+		}
+	}
+}
+
+function onFrame(event) {
+	updateWave(path);
+}
+
+function updateWave(path) {
+	var force = 1 - values.friction * values.timeStep * values.timeStep;
+	for (var i = 0, l = path.segments.length; i < l; i++) {
+		var point = path.segments[i].point;
+		var dy = (point.y - point.py) * force;
+		point.py = point.y;
+		point.y = Math.max(point.y + dy, 0);
+	}
+
+	for (var j = 0, l = springs.length; j < l; j++) {
+		springs[j].update();
+	}
+	path.smooth({ type: 'continuous' });
+}
+
+function onKeyDown(event) {
+	if (event.key == 'space') {
+		path.fullySelected = !path.fullySelected;
+		path.fillColor = path.fullySelected ? null : 'black';
+	}
+}
   </script>
 
   <link rel="stylesheet" href="css/main.css">
@@ -68,15 +180,55 @@
 </section>
 
   <section id="about">
-    <div class="animated fadeInDown delay-2s">
-    <h3>about me</h3><br>
+    <div class="dropdown">
+        <div class="menuicon" id="menuicon1">
+            <span class="line"></span>
+            <span class="line"></span>
+            <span class="line"></span>
+        </div>
+      <div class="dropdown-content">
+        <a href="#home" class="scroll">home</a>
+        <a href="#resume" class="scroll">resume</a>
+        <a href="#portfolio" class="scroll">portfolio</a>
+        <a href="#contact" class="scroll">contact</a>
+      </div>
+    </div>
+    <h3>about me</h3><br><br><br><br><br>
     <img src="resources/me.png" height="170" width="170"/> <br> <br>
-    //name: jane li;<br>
+    <!-- //name: jane li;<br>
     //birthday: 11100-0100;<br>
     //hometown: exton, pa; <br>
     //major: computer science; <br>
-    //hobbies: #dogs, #digital art, #diy_crafts;<br>
+    //hobbies: #dogs, #digital art, #diy_crafts;<br> -->
+    <div class="left" id="element">
+      <h4>where i began</h4>
+      <p>
+        I was born in New Orleans, LA.
+        From there, I moved to Cary, NC, and finally to Exton, PA.
+        I grew up loving to explore. I wanted to try everything I could get my hands on...
+      </p>
     </div>
+
+    <div class="center" id="element">
+      <h4>where i am now</h4>
+      <p>
+        I'm currently fulfilling my desire to explore as a sophomore studying computer science at Duke University in Durham, NC.
+        Through my studies and extracurricular activities, I've gained invaluable experience in:
+        <ul>
+          <li>app development</li>
+          <li>backend development</li>
+          <li>ui/ux</li>
+          <li>graphic design</li>
+        </ul>
+      </p>
+  </div>
+
+  <div class="right" id="element">
+    <h4>where i'm going</h4>
+    <p>
+      Honestly, who knows?
+    </p>
+  </div>
   </section>
 
   <section id="resume">
