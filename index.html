@@ -18,7 +18,8 @@
   </script>
 
   <script type="text/paperscript" canvas="myCanvas">
-    // // The minimum distance the mouse has to drag // before firing the next onMouseDrag event:
+
+  //Alt: brushpen bg
     // tool.minDistance = 10;
     // tool.maxDistance = 45; var path = new Path();
     // path.strokeColor = '#a4d3fc'; path.fillColor = '#a4d3fc';
@@ -35,6 +36,7 @@
     //   path.insert(0, bottom);
     //   path.smooth();
     // }
+
     var values = {
 	friction: 0.8,
 	timeStep: 0.01,
@@ -70,7 +72,7 @@ Spring.prototype.update = function() {
 
 function createPath(strength) {
 	var path = new Path({
-		fillColor: '#bfecff'
+		fillColor: '#c0e0ff'
 	});
 	springs = [];
 	for (var i = 0; i <= values.amount; i++) {
@@ -144,10 +146,11 @@ function onKeyDown(event) {
 }
   </script>
 
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/animate.css">
-  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css?family=Montserrat|Dawning+of+a+New+Day" rel="stylesheet">
 
 </head>
 
@@ -160,14 +163,14 @@ function onKeyDown(event) {
   <canvas id="myCanvas" resize="true"></canvas>
   <div id="text" unselectable="on" class="unselectable">
     <div class="animated fadeInDown">
-      <div class="img">
-        <img id="hello" src="resources/hellomynameis.png" width="185" height="40"></img>
-      </div>
+      <div class="dawn">
+        hello, my name is
+      </div> <br>
       <h1>jane li</h1>
       <h1>jane li</h1>
       <h1>jane li</h1>
-      <div class="img">
-        <img id="and" src="resources/andim.png" width="85" height="40"></img>
+      <div class="dawn">
+        and i'm
       </div>
       a duke sophomore with a creative eye for code <br> <br> <br>
       <h2>///</h2> <br>
@@ -180,7 +183,7 @@ function onKeyDown(event) {
 </section>
 
   <section id="about">
-    <div class="dropdown">
+    <!-- <div class="dropdown">
         <div class="menuicon" id="menuicon1">
             <span class="line"></span>
             <span class="line"></span>
@@ -192,43 +195,24 @@ function onKeyDown(event) {
         <a href="#portfolio" class="scroll">portfolio</a>
         <a href="#contact" class="scroll">contact</a>
       </div>
+    </div> -->
+    <div class="rightnav">
+      <a href="#home" class="scroll">home</a> <br><br>
+      <div id="currentnav">about</div> <br>
+      <a href="#resume" class="scroll">resume</a> <br><br>
+      <a href="#portfolio" class="scroll">portfolio</a> <br><br>
+      <a href="#contact" class="scroll">contact</a> <br><br>
     </div>
-    <h3>about me</h3><br><br><br><br><br>
-    <img src="resources/me.png" height="170" width="170"/> <br> <br>
+    <h3>about me</h3><br><br><br><br><br><br>
+    <div class="left">
+    <img src="resources/me1.png" height="300" width="300"/> <br> <br>
+  </div>
     <!-- //name: jane li;<br>
     //birthday: 11100-0100;<br>
     //hometown: exton, pa; <br>
     //major: computer science; <br>
     //hobbies: #dogs, #digital art, #diy_crafts;<br> -->
-    <div class="left" id="element">
-      <h4>where i began</h4>
-      <p>
-        I was born in New Orleans, LA.
-        From there, I moved to Cary, NC, and finally to Exton, PA.
-        I grew up loving to explore. I wanted to try everything I could get my hands on...
-      </p>
-    </div>
 
-    <div class="center" id="element">
-      <h4>where i am now</h4>
-      <p>
-        I'm currently fulfilling my desire to explore as a sophomore studying computer science at Duke University in Durham, NC.
-        Through my studies and extracurricular activities, I've gained invaluable experience in:
-        <ul>
-          <li>app development</li>
-          <li>backend development</li>
-          <li>ui/ux</li>
-          <li>graphic design</li>
-        </ul>
-      </p>
-  </div>
-
-  <div class="right" id="element">
-    <h4>where i'm going</h4>
-    <p>
-      Honestly, who knows?
-    </p>
-  </div>
   </section>
 
   <section id="resume">
@@ -240,8 +224,16 @@ function onKeyDown(event) {
   </section>
   <section id="portfolio">portfolio</section>
   <section id="contact">contact</section>
+
+
+
+  </div>
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
 </body>
-</div>
+
 
 
 </html>
