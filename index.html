@@ -2,20 +2,39 @@
 <html>
 
 <head>
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
   <script type="text/javascript" src="node_modules/paper/dist/paper-full.js"></script>
+
   <script src="node_modules/jquery/dist/jquery.js"></script>
   <script>
+  var $root = $('html, body');
+
+$('a[href^="#"]').click(function() {
+  var href = $.attr(this, 'href');
+
+  $root.animate({
+      scrollTop: $(href).offset().top
+  }, 500, function () {
+      window.location.hash = href;
+  });
+
+  return false;
+});
+  </script>
+
+  <!-- FIXME: makes links not go to the right place-->
+  <!-- <script>
   $(document).ready(function(){
   $( "a.scroll" ).click(function( event ) {
       event.preventDefault();
       $("html, body").animate({ scrollTop: $($(this).attr("href")).offset().top }, 500);
   });
-  $(".menuicon").hover(function(){
-    $(this).toggleClass("is-active");
-  });
-});
+}); -->
 
-  </script>
+
+  <!-- </script> -->
+
 
   <script type="text/paperscript" canvas="myCanvas">
 
@@ -145,9 +164,6 @@ function onKeyDown(event) {
 	}
 }
   </script>
-
-  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/animate.css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat|Dawning+of+a+New+Day" rel="stylesheet">
@@ -162,7 +178,7 @@ function onKeyDown(event) {
   <section id="home">
   <canvas id="myCanvas" resize="true"></canvas>
   <div id="text" unselectable="on" class="unselectable">
-    <div class="animated fadeInDown">
+    <div data-aos="flip-left">
       <div class="dawn">
         hello, my name is
       </div> <br>
@@ -174,10 +190,10 @@ function onKeyDown(event) {
       </div>
       a duke sophomore with a creative eye for code <br> <br> <br>
       <h2>///</h2> <br>
-      <a href="#about" class="scroll">about</a> <br>
-      <a href="#resume" class="scroll">resume</a> <br>
-      <a href="#portfolio" class="scroll">portfolio</a> <br>
-      <a href="#contact" class="scroll">contact</a> <br>
+      <a href="#about">about</a> <br>
+      <a href="#resume">resume</a> <br>
+      <a href="#portfolio">portfolio</a> <br>
+      <a href="#contact">contact</a> <br>
     </div>
   </div>
 </section>
@@ -196,17 +212,23 @@ function onKeyDown(event) {
         <a href="#contact" class="scroll">contact</a>
       </div>
     </div> -->
+
     <div class="rightnav">
-      <a href="#home" class="scroll">home</a> <br><br>
-      <div id="currentnav">about</div> <br>
-      <a href="#resume" class="scroll">resume</a> <br><br>
-      <a href="#portfolio" class="scroll">portfolio</a> <br><br>
-      <a href="#contact" class="scroll">contact</a> <br><br>
+      <a href="#home">home</a> <br><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div id="currentnav">about</div>&nbsp;&nbsp;&nbsp;<font size="5">⮜</font><br><br>
+      <a href="#resume">resume</a> <br><br>
+      <a href="#portfolio">portfolio</a> <br><br>
+      <a href="#contact">contact</a> <br><br>
     </div>
-    <h3>about me</h3><br><br><br><br><br><br>
-    <div class="left">
-    <img src="resources/me1.png" height="300" width="300"/> <br> <br>
+    <div data-aos="zoom-in-up">
+    <h3>about me</h3> </div>
+    <div class="left" data-aos="zoom-in-up">
+    <img src="resources/me1.png" height="200" width="200"/> <br> <br>
   </div>
+
+  <div class="left" data-aos="zoom-in-up" data-aos-duration="400">
+  ***********************************************************************UNDER CONSTRUCTION****************************************************************</div>
+
     <!-- //name: jane li;<br>
     //birthday: 11100-0100;<br>
     //hometown: exton, pa; <br>
@@ -216,22 +238,26 @@ function onKeyDown(event) {
   </section>
 
   <section id="resume">
-    resume
+    resume <br> ****UNDER CONSTRUCTION***
     <a href="#home" class="scroll">home</a> <br>
     <a href="#about" class="scroll">about</a> <br>
     <a href="#portfolio" class="scroll">portfolio</a> <br>
     <a href="#contact" class="scroll">contact</a> <br>
   </section>
-  <section id="portfolio">portfolio</section>
-  <section id="contact">contact</section>
+  <section id="portfolio">portfolio<br> ****UNDER CONSTRUCTION***</section>
+  <section id="contact">contact<br> ****UNDER CONSTRUCTION***</section>
 
 
 
   </div>
+
+
   <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-  <script>
-    AOS.init();
-  </script>
+ <script>
+   AOS.init({
+  duration: 600, // values from 0 to 3000, with step 50ms
+  });
+ </script>
 </body>
 
 
