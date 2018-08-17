@@ -25,7 +25,6 @@
 .dawn {
   font-family: 'Dawning of a New Day', cursive;
   font-size: 250%;
-  color: #ffffff;
 }
 .img {
   position: relative;
@@ -39,9 +38,9 @@
 
 .center {
   margin: auto;
-  width: 40vh;
+  width: 70vh;
   height: 0vh;
-  text-align: center;
+  text-align: justify;
 }
 
 .rightnav {
