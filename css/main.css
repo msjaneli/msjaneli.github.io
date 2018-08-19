@@ -175,6 +175,21 @@ section {
   margin: 0;
 }
 
+#resume {
+  background-image: url("resume-bg.svg");
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  background-size: cover;
+  margin: 0;
+}
+
+#portfolio {
+  background-image: url("portfolio-bg.svg");
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  background-size: cover;
+  margin: 0;
+}
 svg { position:fixed; top:0; left:0; height:100%; width:100% }
 
 h3 {
