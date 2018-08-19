@@ -22,12 +22,13 @@
   background: #c6c6c6; /* Gecko Browsers */
 }
 
-.dawn {
-  font-family: 'Dawning of a New Day', cursive;
-  font-size: 250%;
+.gaegu {
+  font-family: 'Gaegu', cursive;
+  font-size: 4vh;
+  padding-top: 3vh;
 }
 .img {
-  position: relative;
+
 }
 
 .left {
@@ -88,7 +89,7 @@ html, body {
 a {
   color: white;
   text-decoration: underline;
-  font-size: 150%;
+  font-size: 4vh;
   background-image: linear-gradient(to right, transparent 50%, #a4d3fc 50%);
   background-position: 0;
   background-size: 200%;
@@ -177,30 +178,17 @@ section {
 svg { position:fixed; top:0; left:0; height:100%; width:100% }
 
 h3 {
-  font-family: 'Dawning of a New Day', cursive;
-  font-size: 300%;
+  text-align: center;
+  font-family: 'Gaegu', cursive;
+  font-size: 8vh;
   font-weight: lighter;
-  position: absolute;
-  margin-top: 11vh;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-decoration: underline;
-  text-decoration-color: #ffffff;
+  padding-bottom: 4vh;
 }
 
-h4 {
-font-size: 150%;
-color: #ffffff;
-text-decoration: underline;
-text-decoration-color: #ffe2dd;
-}
-
-#resumepdf {
-
-}
 h1 {
   margin: 0;
   line-height: 0;
+  font-size: 3.5vh;
   animation: glitch1 2.5s infinite;
 }
 h1:nth-child(2) {

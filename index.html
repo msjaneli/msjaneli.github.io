@@ -168,7 +168,7 @@ function onKeyDown(event) {
 }
   </script>
   <link rel="stylesheet" href="css/main.css">
-  <link href="https://fonts.googleapis.com/css?family=Montserrat|Dawning+of+a+New+Day" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat|Gaegu" rel="stylesheet">
 
 </head>
 
@@ -180,18 +180,18 @@ function onKeyDown(event) {
   <section id="home">
   <canvas id="myCanvas" resize="true"></canvas>
   <div id="text" unselectable="on" class="unselectable">
-    <div data-aos="flip-left">
-      <div class="dawn"><font color="#ffffff">hello, my name is</font></div> <br>
+    <div data-aos="zoom-in">
+      <div class="gaegu"><font color="#ffffff">hello, my name is</font></div> <br>
       <h1>jane li</h1>
       <h1>jane li</h1>
       <h1>jane li</h1>
-      <div class="dawn"><font color="#ffffff">and i'm</font></div>
-      a duke sophomore with a creative eye for code <br> <br> <br>
-      <h2>///</h2> <br>
+      <div class="gaegu"><font color="#ffffff">and i'm</font></div>
+      <div style="font-size:2.7vh;padding-bottom:4vh;">a duke sophomore with a creative eye for code </div>
+      <h2 style="font-size:3vh">///</h2> <br>
       <a href="#about">about</a> <br>
       <a href="#resume">resume</a> <br>
       <a href="#portfolio">portfolio</a> <br>
-      <a href="#contact">contact</a> <br>
+      <a href="#contact">contact</a><br>
     </div>
   </div>
 </section>
@@ -219,44 +219,51 @@ function onKeyDown(event) {
       <a href="#contact">contact</a> <br><br>
     </div> -->
     <div class="center">
-      <div data-aos="zoom-in-up">
-    <h3>about me</h3> </div> <br><br><br><br><br><br><br>
-    <div data-aos="zoom-in-up">
-    <img src="resources/me1.png" height="200" width="200"/> <br> <br>
-  </div>
+      <div data-aos="zoom-in"><br>
+    <h3 style="text-decoration: underline;text-decoration-color: #ffffff;">about me</h3>
 
-  <div data-aos="zoom-in-up"><font size="2">
+    <img src="resources/me1.png" style="max-width:60%"/> <br> <br>
+
+  <div style="font-size:2.4vh;">
   I'm a sophomore at Duke University with a passion for both coding and creating.
   To me, computer science provides the ultimate blank slate on which I can express myself. Though I'm not just focused
   in design; I also have interests in AI, security, software development, and backend development. Wherever I go, I bring
-  with me the experience and unique perspective for bringing together a cohesive project. </font></div></div>
+  with me the experience and unique perspective for bringing together a polished and cohesive project.<br><br><br>
 
-
-
+  ——— ◒ ———</div>
+</div></div>
   </section>
 
-  <section id="resume">
-    <h3>resume</h3><br><br><br>
+  <section id="resume"><div data-aos="zoom-in"><br>
+    <h3 style="text-decoration: underline;text-decoration-color: #ffe2dd;">resume</h3>
     <div id="resumepdf">
       <script src="node_modules/pdfobject/pdfobject.js"></script>
       <script>
       var options = {
-   width: "20rem",
-   height: "30rem"
+        pdfOpenParams: { view: 'Fit' },
+   width: "80vw",
+   height: "79vh"
 };
       PDFObject.embed("resources/JaneLi_2018.pdf", "#resumepdf", options);
     </script>
     </div>
+  </div>
     <!-- <a href="#home" class="scroll">home</a> <br>
     <a href="#about" class="scroll">about</a> <br>
     <a href="#portfolio" class="scroll">portfolio</a> <br>
     <a href="#contact" class="scroll">contact</a> <br> -->
   </section>
-  <section id="portfolio">portfolio<br>
-  <div class="dawn">coming soon</div></section>
-  <section id="contact">contact<br><br><br><br>
-  email: jane.li1@duke.edu<br>
-  linkedin: linkedin.com/in/ms-jane-li/</section>
+  <section id="portfolio"><div data-aos="zoom-in"><br>
+    <h3>portfolio</h3><br><br><br><br><br>
+    <font size="5">Coming soon!</font>
+  </div>
+</section>
+  <section id="contact"><div data-aos="zoom-in"><br><h3>contact info</h3>
+    <div class="center" style="text-align:left;font-size:3.5vh;width:80vh;padding-left:33vh;">
+    <img src="resources/email.png" style="width:10%"/>
+  jane.li1@duke.edu<br>
+  <img src="resources/linkedin.png" style="width:9.8%" />
+  linkedin.com/in/ms-jane-li/</style></div></div>
 
 
 
