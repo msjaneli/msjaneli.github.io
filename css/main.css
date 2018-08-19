@@ -38,9 +38,9 @@
 
 .center {
   margin: auto;
-  width: 70vh;
+  width: 50vh;
   height: 0vh;
-  text-align: justify;
+  text-align: center;
 }
 
 .rightnav {
@@ -181,7 +181,7 @@ h3 {
   font-size: 300%;
   font-weight: lighter;
   position: absolute;
-  margin-top: 10vh;
+  margin-top: 11vh;
   left: 50%;
   transform: translate(-50%, -50%);
   text-decoration: underline;
@@ -195,6 +195,9 @@ text-decoration: underline;
 text-decoration-color: #ffe2dd;
 }
 
+#resumepdf {
+
+}
 h1 {
   margin: 0;
   line-height: 0;
@@ -393,7 +396,7 @@ h1:nth-child(3) {
 
 /* SEVEN */
 
-#menuicon1.is-active .line:nth-child(1){
+/* #menuicon1.is-active .line:nth-child(1){
   width: 30px;
 }
 
@@ -406,4 +409,4 @@ h1:nth-child(3) {
   -ms-transform: rotate(-30deg);
   -o-transform: rotate(-30deg);
   transform: rotate(-30deg);
-} */
+} */ */

@@ -211,40 +211,46 @@ function onKeyDown(event) {
       </div>
     </div> -->
 
-    <div class="rightnav">
+    <!-- <div class="rightnav">
       <a href="#home">home</a> <br><br>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div id="currentnav">about</div>&nbsp;&nbsp;&nbsp;<font size="5">⮜</font><br><br>
       <a href="#resume">resume</a> <br><br>
       <a href="#portfolio">portfolio</a> <br><br>
       <a href="#contact">contact</a> <br><br>
-    </div>
+    </div> -->
     <div class="center">
       <div data-aos="zoom-in-up">
-    <h3>about me</h3> </div> <br><br><br><br><br><br><br><br>
+    <h3>about me</h3> </div> <br><br><br><br><br><br><br>
     <div data-aos="zoom-in-up">
     <img src="resources/me1.png" height="200" width="200"/> <br> <br>
   </div>
 
-  <div data-aos="zoom-in-up">
+  <div data-aos="zoom-in-up"><font size="2">
   I'm a sophomore at Duke University with a passion for both coding and creating.
   To me, computer science provides the ultimate blank slate on which I can express myself. Though I'm not just focused
   in design; I also have interests in AI, security, software development, and backend development. Wherever I go, I bring
-  with me the experience and unique perspective for bringing together a cohesive project. </div></div>
+  with me the experience and unique perspective for bringing together a cohesive project. </font></div></div>
 
 
 
   </section>
 
   <section id="resume">
-    resume <br> ****UNDER CONSTRUCTION***
+    <h3>resume</h3><br><br><br>
     <div id="resumepdf">
       <script src="node_modules/pdfobject/pdfobject.js"></script>
-      <script>PDFObject.embed("resources/JaneLi_2018.pdf", "#resume");</script>
+      <script>
+      var options = {
+   width: "20rem",
+   height: "30rem"
+};
+      PDFObject.embed("resources/JaneLi_2018.pdf", "#resumepdf", options);
+    </script>
     </div>
-    <a href="#home" class="scroll">home</a> <br>
+    <!-- <a href="#home" class="scroll">home</a> <br>
     <a href="#about" class="scroll">about</a> <br>
     <a href="#portfolio" class="scroll">portfolio</a> <br>
-    <a href="#contact" class="scroll">contact</a> <br>
+    <a href="#contact" class="scroll">contact</a> <br> -->
   </section>
   <section id="portfolio">portfolio<br>
   <div class="dawn">coming soon</div></section>
