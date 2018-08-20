@@ -85,7 +85,7 @@ html, body {
 
 
 a {
-  color: white;
+  color: black;
   text-decoration: underline;
   font-size: 4vh;
   background-image: linear-gradient(to right, transparent 50%, #a4d3fc 50%);
