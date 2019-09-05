@@ -1,282 +1,331 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+  <title> Jane Li </title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP:500|Lato|Lora:400,700&display=swap" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.js"></script>
 
-  <script type="text/javascript" src="node_modules/paper/dist/paper-full.js"></script>
-
-  <script src="node_modules/jquery/dist/jquery.js"></script>
-  <script>
-  var $root = $('html, body');
-
-$('a[href^="#"]').click(function() {
-  var href = $.attr(this, 'href');
-
-  $root.animate({
-      scrollTop: $(href).offset().top
-  }, 500, function () {
-      window.location.hash = href;
-  });
-
-  return false;
-});
-  </script>
-
-  <!-- FIXME: makes links not go to the right place-->
-  <!-- <script>
-  $(document).ready(function(){
-  $( "a.scroll" ).click(function( event ) {
-      event.preventDefault();
-      $("html, body").animate({ scrollTop: $($(this).attr("href")).offset().top }, 500);
-  });
-}); -->
-
-
-  <!-- </script> -->
-
-
-  <script type="text/paperscript" canvas="myCanvas">
-
-  //Alt: brushpen bg
-    // tool.minDistance = 10;
-    // tool.maxDistance = 45; var path = new Path();
-    // path.strokeColor = '#a4d3fc'; path.fillColor = '#a4d3fc';
-    // function onMouseMove(event) {
-    //   path.add(event.point);
-    //   var step = event.delta;
-    //   step.angle += 90;
-    //   var top = event.middlePoint + step;
-    //   var bottom = event.middlePoint - step;
-    //   var line = new Path();
-    //   line.add(top);
-    //   line.add(bottom);
-    //   path.add(top);
-    //   path.insert(0, bottom);
-    //   path.smooth();
-    // }
-
-    var values = {
-	friction: 0.8,
-	timeStep: 0.01,
-	amount: 15,
-	mass: 2,
-	count: 0
-};
-values.invMass = 1 / values.mass;
-
-var path, springs;
-var size = view.size * [1.2, 1];
-
-var Spring = function(a, b, strength, restLength) {
-	this.a = a;
-	this.b = b;
-	this.restLength = restLength || 80;
-	this.strength = strength ? strength : 0.55;
-	this.mamb = values.invMass * values.invMass;
-};
-
-Spring.prototype.update = function() {
-	var delta = this.b - this.a;
-	var dist = delta.length;
-	var normDistStrength = (dist - this.restLength) /
-			(dist * this.mamb) * this.strength;
-	delta.y *= normDistStrength * values.invMass * 0.2;
-	if (!this.a.fixed)
-		this.a.y += delta.y;
-	if (!this.b.fixed)
-		this.b.y -= delta.y;
-};
-
-
-function createPath(strength) {
-	var path = new Path({
-		fillColor: '#c0e0ff'
-	});
-	springs = [];
-	for (var i = 0; i <= values.amount; i++) {
-		var segment = path.add(new Point(i / values.amount, 0.5) * size);
-		var point = segment.point;
-		if (i == 0 || i == values.amount)
-			point.y += size.height;
-		point.px = point.x;
-		point.py = point.y;
-		// The first two and last two points are fixed:
-		point.fixed = i < 2 || i > values.amount - 2;
-		if (i > 0) {
-			var spring = new Spring(segment.previous.point, point, strength);
-			springs.push(spring);
-		}
-	}
-	path.position.x -= size.width / 4;
-	return path;
-}
-
-function onResize() {
-	if (path)
-		path.remove();
-	size = view.bounds.size * [2, 1];
-	path = createPath(0.1);
-}
-
-function onMouseMove(event) {
-	var location = path.getNearestLocation(event.point);
-	var segment = location.segment;
-	var point = segment.point;
-
-	if (!point.fixed && location.distance < size.height / 4) {
-		var y = event.point.y;
-		point.y += (y - point.y) / 6;
-		if (segment.previous && !segment.previous.fixed) {
-			var previous = segment.previous.point;
-			previous.y += (y - previous.y) / 24;
-		}
-		if (segment.next && !segment.next.fixed) {
-			var next = segment.next.point;
-			next.y += (y - next.y) / 24;
-		}
-	}
-}
-
-function onFrame(event) {
-	updateWave(path);
-}
-
-function updateWave(path) {
-	var force = 1 - values.friction * values.timeStep * values.timeStep;
-	for (var i = 0, l = path.segments.length; i < l; i++) {
-		var point = path.segments[i].point;
-		var dy = (point.y - point.py) * force;
-		point.py = point.y;
-		point.y = Math.max(point.y + dy, 0);
-	}
-
-	for (var j = 0, l = springs.length; j < l; j++) {
-		springs[j].update();
-	}
-	path.smooth({ type: 'continuous' });
-}
-
-function onKeyDown(event) {
-	if (event.key == 'space') {
-		path.fullySelected = !path.fullySelected;
-		path.fillColor = path.fullySelected ? null : 'black';
-	}
-}
-  </script>
   <link rel="stylesheet" href="css/main.css">
-  <link href="https://fonts.googleapis.com/css?family=Montserrat|Gaegu" rel="stylesheet">
-
+  <link rel="stylesheet" href="css/window.css">
 </head>
-
-<title>jane li: home</title>
-
-
-<div class="scrolling">
 <body>
-  <section id="home">
-  <canvas id="myCanvas" resize="true"></canvas>
-  <div id="text" unselectable="on" class="unselectable">
-    <div data-aos="zoom-in">
-      <div class="gaegu"><font color="#ffffff">hello, my name is</font></div> <br>
-      <h1>jane li</h1>
-      <h1>jane li</h1>
-      <h1>jane li</h1>
-      <div class="gaegu"><font color="#ffffff">and i'm</font></div>
-      <div style="font-size:2.7vh;padding-bottom:4vh;">a duke junior with a creative eye for code </div>
-      <h2 style="font-size:3vh">///</h2> <br>
-      <a class="nav" href="#about" style="color: #ffffff;">about</a> <br>
-      <a href="#resume" style="color: #ffffff;">resume</a> <br>
-      <a href="#portfolio" style="color: #ffffff;">portfolio</a> <br>
-      <a href="#contact" style="color: #ffffff;">contact</a><br>
-    </div>
-  </div>
-</section>
-
-  <section id="about">
-    <!-- <div class="dropdown">
-        <div class="menuicon" id="menuicon1">
-            <span class="line"></span>
-            <span class="line"></span>
-            <span class="line"></span>
-        </div>
-      <div class="dropdown-content">
-        <a href="#home" class="scroll">home</a>
-        <a href="#resume" class="scroll">resume</a>
-        <a href="#portfolio" class="scroll">portfolio</a>
-        <a href="#contact" class="scroll">contact</a>
+  <nav class="navbar fixed-top navbar-expand-sm">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+   <span class="navbar-toggler-icon">&#x1F5A4;</span>
+ </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto" id="magicline">
+        <li class="nav-item active current_page_item magic-nav">
+          <a class="nav-link current_page_item" href="#home">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item magic-nav">
+          <a class="nav-link" href="#about">About Me</a>
+        </li>
+        <li class="nav-item magic-nav">
+          <a class="nav-link" href="#portfolio">Portfolio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="resume" href="resources/JaneLi19.pdf" target="_blank">Resume</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        <div class="contact-info">
+        <li class="nav-item contact">
+          <a href="mailto: jane.li1@duke.edu"><img class="icon" src="resources/email-icon.png"/></a>
+        </li>
+        <li class="nav-item contact">
+          <a href="https://www.linkedin.com/in/ms-jane-li/" target="_blank"><img class="icon" src="resources/linkedin-icon.png"/></a>
+        </li>
       </div>
-    </div> -->
+      </ul>
+          </div>
+  </nav>
 
-    <!-- <div class="rightnav">
-      <a href="#home">home</a> <br><br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div id="currentnav">about</div>&nbsp;&nbsp;&nbsp;<font size="5">⮜</font><br><br>
-      <a href="#resume">resume</a> <br><br>
-      <a href="#portfolio">portfolio</a> <br><br>
-      <a href="#contact">contact</a> <br><br>
-    </div> -->
-    <div class="center">
-      <div data-aos="zoom-in"><br>
-    <h3 style="text-decoration: underline;text-decoration-color: #ffffff; padding-bottom:4vh;">about me</h3>
-
-    <img src="resources/me1.png" style="max-width:60%"/>
-
-  <div style="font-size:2.4vh; padding-top: 4vh;">
-  I'm a junior at Duke University with a passion for both coding and creating.
-  I'm interested in computer science because it allows me to build extraordinary things out of just a few resources.
-  I have interests in design, AI, security, software development, and backend development. Wherever I go, I bring
-  with me the experience and enthusiasm necessary to bring together a polished and cohesive project.<br><br><br>
-
-  ——— ◒ ———</div>
-</div></div>
-  </section>
-
-  <section id="resume"><div data-aos="zoom-in"><br>
-    <h3 style="text-decoration: underline;text-decoration-color: #ffe2dd;">resume</h3>
-    <div id="resumepdf">
-      <script src="node_modules/pdfobject/pdfobject.js"></script>
-      <script>
-      var options = {
-        pdfOpenParams: { zoom: '100%' },
-   width: "80vw",
-   height: "75vh"
-};
-      PDFObject.embed("resources/JaneLi19.pdf", "#resumepdf", options);
-    </script>
-    </div>
-      <div style="font-size:2.4vh;z-index:3;">——— ◒ ———</div>
+  <section id="home" class="window">
+    <div id="wrapper">
+  <h1 id="main">Hey, I'm <div id="name">Jane.</div></h1>
+  <div id="typed-strings">
+      <p>&lt;creative coder&gt;<p>
+      <p>&lt;UI/UX designer&gt;</p>
+      <p>&lt;web developer&gt;</p>
+      <p>&lt;program manager&gt;</p>
+      <p>&lt;hamster lover&gt;</p>
   </div>
-    <!-- <a href="#home" class="scroll">home</a> <br>
-    <a href="#about" class="scroll">about</a> <br>
-    <a href="#portfolio" class="scroll">portfolio</a> <br>
-    <a href="#contact" class="scroll">contact</a> <br> -->
-  </section>
-  <section id="portfolio"><div data-aos="zoom-in"><br>
-    <h3 style="text-decoration: underline;text-decoration-color:#ffffff">portfolio</h3><br><br><br><br><br>
-    <font size="5">Coming soon!</font>
-  </div>
+  <span id="typed"></span>
+</div>
 </section>
-  <section id="contact"><div data-aos="zoom-in"><br><h3 style="text-decoration: underline;text-decoration-color:#c0e0ff;">contact info</h3>
-    <div class="center" style="font-size:3.5vh;line-height:2vh;">
-    <img src="resources/email.png" style="width:10%"/><br><br>
-  jane.li1@duke.edu<br><br><br>
-  ——— ◒ ——— <br><br>
-  <img src="resources/linkedin.png" style="width:9.8%;padding-bottom:2.3vh;" /><br>
-  linkedin.com/in/ms-jane-li/</style></div></div>
+<section id="about" class="window">
+  <div id="wrapper2">
+  <h2>About Me</h2>
+  <div id="wrapper3">
+  <h3>Who I Am</h3>
+  <p id="about-text">I am a <b>junior</b> at Duke University, slated to graduate <b>December 2020</b>. I am majoring in <b>Computer Science</b> with a minor in <b>Visual Media Studies</b>.
+    I am currently on the lookout for internship opportunities for <b>Summer 2020</b> in the following roles: <b>product design, program management, & software engineering</b>.
+  </p><br>
+  <h3>What Makes My World Spin</h3>
+  <p>I am passionate about <b>user experience</b>. Though my interests vary from program management to software development, what underlies these attachments is my desire to improve upon the everyday experience - <b>to make moving through the world
+as accessible and intuitive as possible</b>.</p>
+</div>
+<div id="wrapper4">
+  <img id="me" src="resources/me2.png">
+</div>
+</div>
+</section>
+<section id="portfolio" class="window">
+  <div id="wrapper2">
+  <h2 id="ptfl">Portfolio</h2>
+  <div id="buttons">
+  <button type="button" class="btn btn-light active-btn" id="technical">Technical</button>
+  <button type="button" class="btn btn-light"id="visual">Visual</button>
+</div>
+  <div class="grid">
+
+    <div class="grid-item technical">
+      <article class="card card--2">
+  <div class="card__info-hover">
+    <div class="card__like"  viewBox="0 0 24 24">
+      <img class="link-icon" src="resources/link-icon.png"/>
+</div>
+
+  </div>
+  <div class="card__img"></div>
+  <a href="http://people.duke.edu/~jl752/final/index.html" target="_blank" class="card_link">
+     <div class="card__img--hover"></div>
+   </a>
+  <div class="card__info">
+    <span class="card__category">HTML, CSS, Javascript</span>
+    <h3 class="card__title">Sentiment Audio Visualizer</h3>
+    <span class="card__by">A web app serving audio and visuals based on mood</span>
+  </div>
+</article></div>
+
+    <div class="grid-item technical">
+      <article class="card card--4">
+    <div class="card__info-hover">
+    <div class="card__like"  viewBox="0 0 24 24">
+      <img class="card-icon" src="resources/docu-icon.png"/>
+    </div>
+
+    </div>
+    <div class="card__img"></div>
+    <a href="resources/predicting-parkinsons.pdf" target="_blank" class="card_link">
+     <div class="card__img--hover"></div>
+    </a>
+    <div class="card__info">
+    <span class="card__category">Python, Tableau</span>
+    <h3 class="card__title">Parkinson's Prediction Model</h3>
+    <span class="card__by">Predicting Parkinson's Disease based on user keyboard data</span>
+    </div>
+    </article></div>
+
+    <div class="grid-item technical">
+      <article class="card card--1">
+  <div class="card__info-hover">
+    <div class="card__like"  viewBox="0 0 24 24">
+      <img class="card-icon" src="resources/github-icon.png"/>
+</div>
+  </div>
+  <div class="card__img"></div>
+  <a href="https://github.com/gkim98/entropy" target="_blank" class="card_link">
+     <div class="card__img--hover"></div>
+   </a>
+  <div class="card__info">
+    <span class="card__category">HTML, CSS, Javascript</span>
+    <h3 class="card__title">Entropy</h3>
+    <span class="card__by">A Chrome extension built to promote sustainable practices</span>
+  </div>
+</article>
+    </div>
 
 
-  <div class="gaegu" style="position: absolute;
-  bottom: 8vh; left: 50vw; margin-left:-21vh;">Thanks for visiting! <font color="#ffe2dd">❤</font></div>
+    <div class="grid-item visual">
+      <article class="card card--5">
+  <div class="card__info-hover">
+    <div class="card__like"  viewBox="0 0 24 24">
+      <img class="link-icon" src="resources/link-icon.png"/>
+  </div>
 
+  </div>
+  <div class="card__img"></div>
+  <a href="https://drive.google.com/file/d/11qBwZ5MaPbEa1hrTzRBMIMEnzzxWOyI5/view" target="_blank" class="card_link">
+     <div class="card__img--hover"></div>
+   </a>
+  <div class="card__info">
+    <span class="card__category">Adobe After Effects, Illustrator</span>
+    <h3 class="card__title">Animated Music Video</h3>
+    <span class="card__by">A geometric man deals with heartbreak, set to Lany's Malibu Nights</span>
+  </div>
+  </article></div>
 
-  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
- <script>
-   AOS.init({
-  duration: 600, // values from 0 to 3000, with step 50ms
+  <div class="grid-item visual">
+    <article class="card card--6">
+<div class="card__info-hover">
+  <div class="card__like"  viewBox="0 0 24 24">
+    <img class="link-icon" src="resources/link-icon.png"/>
+</div>
+
+</div>
+<div class="card__img"></div>
+<a href="https://drive.google.com/file/d/1DSDNJrDEy22Th1WO6VVNaM2GDP-H07gS/view" target="_blank" class="card_link">
+   <div class="card__img--hover"></div>
+ </a>
+<div class="card__info">
+  <span class="card__category">Adobe Premier</span>
+  <h3 class="card__title">Stop Motion</h3>
+  <span class="card__by">A group of three become friends in unlikely circumstances</span>
+</div>
+</article></div>
+  <!-- <div class="grid-item technical">
+    <article class="card card--3">
+<div class="card__info-hover">
+  <div class="card__like"  viewBox="0 0 24 24">
+    <img class="link-icon" src="resources/link-icon.png"/>
+</div>
+</div>
+<div class="card__img"></div>
+<a href="http://people.duke.edu/~jl752/assignment13.html" target="_blank" class="card_link">
+   <div class="card__img--hover"></div>
+ </a>
+<div class="card__info">
+  <span class="card__category">HTML, CSS, Javascript</span>
+  <h3 class="card__title">Alphabets!</h3>
+  <span class="card__by">Pure fun with letters</span>
+</div>
+</article></div> -->
+
+</div>
+</section>
+<script>
+$('.grid').isotope({
+  // options
+  itemSelector: '.grid-item',
+  layoutMode: 'fitRows',
+  filter: '.technical'
+});
+$("#technical").click(function(){
+  $('.grid').isotope({ filter: '.technical' });
+});
+$("#visual").click(function(){
+  $('.grid').isotope({ filter: '.visual' });
+});
+</script>
+<script>
+  $('a[href*="#"]')
+    .not('[href="#"]')
+    .not('[href="#0"]')
+    .not('[href="#carouselExampleIndicators"]')
+    .click(function(event) {
+      if (
+        location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') &&
+        location.hostname == this.hostname
+      ) {
+        var target = $(this.hash);
+        target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+        if (target.length) {
+          event.preventDefault();
+          $('html, body').animate({
+            scrollTop: target.offset().top
+          }, 1000, function() {
+            var $target = $(target);
+            $target.focus();
+            if ($target.is(":focus")) {
+              return false;
+            } else {
+              $target.attr('tabindex', '-1');
+              $target.focus();
+            };
+          });
+        }
+      }
+    });
+</script>
+
+<script>
+  $(function() {
+    'use strict';
+    $('.nav-item').click(function() {
+      $(this).children().addClass('current_page_item');
+      $(this).siblings().children().removeClass('current_page_item');
+    });
+
   });
- </script>
+
+  $(function() {
+    'use strict';
+    $('.btn-light').click(function() {
+      $(this).addClass('active-btn');
+      $(this).siblings().removeClass('active-btn');
+    });
+
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.9"></script>
+<script>
+  var typed = new Typed('#typed', {
+    stringsElement: '#typed-strings',
+    typeSpeed: 35,
+    backSpeed: 25,
+    loop: true,
+    smartBackspace: false
+  });
+</script>
+<!-- <script>
+function onScroll(event){
+    var scrollPos = $(document).scrollTop();
+    $('#magic-nav a').each(function () {
+        var currLink = $(this);
+        var refElement = $(currLink.attr("href"));
+        if (refElement.position().top <= scrollPos && refElement.position().top + refElement.height() > scrollPos) {
+            $('#magic-nav a').removeClass("current_page_item");
+            currLink.addClass("current_page_item");
+        }
+        else{
+            currLink.removeClass("current_page_item");
+        }
+    });
+  }
+</script> -->
+<script>
+$("#magicline").append("<li id='magic-line'></li>");
+
+var $magicLine = $("#magic-line");
+
+$magicLine
+.width($(".current_page_item").width())
+.css("left", $(".current_page_item a").position().left)
+.data("origLeft", $magicLine.position().left)
+.data("origWidth", $magicLine.width());
+
+$("#magicline li")
+.find("a")
+.hover(
+  function() {
+    $el = $(this);
+    leftPos = $el.position().left;
+    newWidth = $el.parent().width();
+
+    $magicLine.stop().animate({
+      left: leftPos,
+      width: newWidth
+    });
+  },
+  function() {
+    $magicLine.stop().animate({
+      left: $magicLine.data("origLeft"),
+      width: $magicLine.data("origWidth")
+    });
+  }
+);
+
+$(".magic-nav a").click(function() {
+  $magicLine.data("origLeft", $(this).position().left);
+});
+</script>
+
 </body>
-
-
-
 </html>
